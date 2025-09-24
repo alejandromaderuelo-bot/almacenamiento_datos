@@ -12,3 +12,117 @@ def normalize_columns(df: pd.DataFrame) -> pd.DataFrame:
     return df
 
 # TODO: aplicar casting de tipos, limpieza de outliers, exportar a /data/bronze y /data/silver
+# src/transform.py
+from __future__ import annotations
+
+from typing import Dict
+import re
+import pandas as pd
+
+
+def _normalize_amount_series(s: pd.Series) -> pd.Series:
+    """
+    Normaliza importes a float (EUR).
+    - Quita símbolo € y espacios.
+    - Elimina separadores de miles (., ,) cuando correspondan.
+    - Convierte coma decimal europea a punto.
+    """
+    if not isinstance(s, pd.Series):
+        raise TypeError("Se esperaba un pandas.Series para amount")
+
+    # A texto para limpiar
+    s = s.astype(str)
+
+    # Quitar símbolo de euro y espacios
+    s = s.str.replace("€", "", regex=False).str.replace(r"\s+", "", regex=True)
+
+    # Eliminar separadores de miles estilo europeo: punto antes de 3 dígitos al final o antes de no dígito
+    s = s.str.replace(r"\.(?=\d{3}(?:\D|$))", "", regex=True)
+    # Eliminar separadores de miles estilo EEUU: coma antes de 3 dígitos
+    s = s.str.replace(r",(?=\d{3}(?:\D|$))", "", regex=True)
+
+    # Convertir coma decimal restante en punto
+    s = s.str.replace(",", ".", regex=False)
+
+    # Convertir a numérico
+    return pd.to_numeric(s, errors="coerce")
+
+
+def _clean_partner_series(s: pd.Series) -> pd.Series:
+    """
+    Limpia partner: recorta espacios y colapsa múltiples espacios internos.
+    """
+    if not isinstance(s, pd.Series):
+        raise TypeError("Se esperaba un pandas.Series para partner")
+
+    s = s.astype(str)
+    s = s.str.strip()
+    s = s.str.replace(r"\s+", " ", regex=True)
+    return s
+
+
+def normalize_columns(df: pd.DataFrame, mapping: Dict[str, str]) -> pd.DataFrame:
+    """
+    Renombra columnas según `mapping` (origen -> 'date'/'partner'/'amount'),
+    parsea fechas a datetime (ISO), normaliza amount (elimina € y separadores),
+    y limpia espacios en partner.
+
+    Parameters
+    ----------
+    df : pd.DataFrame
+        Datos de entrada (bronze crudo).
+    mapping : Dict[str, str]
+        Mapeo de columnas de origen a canónicas. Ej: {'fecha':'date','cliente':'partner','importe_total':'amount'}
+
+    Returns
+    -------
+    pd.DataFrame
+        DataFrame con columnas canónicas: 'date', 'partner', 'amount' (y cualquier otra que tuviera).
+    """
+    if not isinstance(df, pd.DataFrame):
+        raise TypeError("df debe ser un pandas.DataFrame")
+    if not isinstance(mapping, dict):
+        raise TypeError("mapping debe ser dict[str, str]")
+
+    out = df.copy()
+
+    # Renombrado a canónico
+    # Solo aplicar mapping de claves que existan en df
+    valid_keys = {k: v for k, v in mapping.items() if k in out.columns}
+    out = out.rename(columns=valid_keys)
+
+    # Parseo de fecha a datetime64[ns] (ISO)
+    if "date" in out.columns:
+        out["date"] = pd.to_datetime(out["date"], errors="coerce", utc=False, infer_datetime_format=True)
+
+    # Normalización de amount a float
+    if "amount" in out.columns:
+        out["amount"] = _normalize_amount_series(out["amount"])
+
+    # Limpieza de partner
+    if "partner" in out.columns:
+        out["partner"] = _clean_partner_series(out["partner"])
+
+    return out
+
+
+def to_silver(bronze: pd.DataFrame) -> pd.DataFrame:
+    """
+    Agrega 'amount' por 'partner' y mes.
+    - Crea columna 'month' como inicio de mes (timestamp) a partir de 'date'.
+
+    Parameters
+    ----------
+    bronze : pd.DataFrame
+        Debe contener columnas 'date', 'partner', 'amount'.
+
+    Returns
+    -------
+    pd.DataFrame
+        Columnas: ['month', 'partner', 'amount'] con sumas por partner-mes.
+    """
+    required = {"date", "partner", "amount"}
+    missing = required - set(bronze.columns)
+    if missing:
+        raise ValueError(f"Faltan columnas requeridas en bronze: {sorted(missing)}")
+
