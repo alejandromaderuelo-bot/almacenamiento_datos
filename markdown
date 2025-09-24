@@ -99,3 +99,22 @@ Este documento define las políticas de gobernanza aplicadas en el laboratorio.
 | Data Steward   | Garantizar calidad de datos, actualización del diccionario y gobernanza.|
 
 
+# ✅ Checklist de validación del laboratorio
+
+- [ ] **URL de Streamlit** funcional y accesible públicamente.
+- [ ] **bronze.csv** generado y subido a `/data/bronze/`.
+- [ ] **silver.csv** generado y subido a `/data/silver/`.
+- [ ] **README.md** incluye decisiones justificadas basadas en las **5V de Big Data** (Volumen, Velocidad, Variedad, Veracidad, Valor).
+- [ ] Capturas de pantalla del despliegue y ejecución agregadas en `docs/`.
+- [ ] **Diccionario de datos** (`docs/diccionario.md`) completo y actualizado con mapeos origen → canónico.
+- [ ] **Gobernanza de datos** (`docs/gobernanza.md`) redactada con linaje, validaciones mínimas, mínimos privilegios, trazabilidad y roles.
+
+# 📊 Rúbrica de Evaluación (10 puntos)
+
+| Criterio                     | Puntos | Descripción                                                                 |
+|------------------------------|--------|-----------------------------------------------------------------------------|
+| **Diseño y justificación**   | 3      | Claridad en arquitectura, modelo de datos y decisiones (incluyendo 5V).     |
+| **Calidad de datos**         | 3      | Grado de limpieza, normalización y validaciones correctas en bronze/silver. |
+| **Trazabilidad y DW**        | 2      | Evidencia de linaje, separación bronze/silver y conexión KPI ↔ fuentes.     |
+| **Documentación**            | 2      | README completo, diccionario y gobernanza claros, capturas en `docs/`.      |
+| **Total**                    | 10     |                                                                             |
