@@ -118,3 +118,28 @@ Este documento define las políticas de gobernanza aplicadas en el laboratorio.
 | **Trazabilidad y DW**        | 2      | Evidencia de linaje, separación bronze/silver y conexión KPI ↔ fuentes.     |
 | **Documentación**            | 2      | README completo, diccionario y gobernanza claros, capturas en `docs/`.      |
 | **Total**                    | 10     |                                                                             |
+
+## 📝 Prompts de reflexión
+
+Responde brevemente a cada punto (3–5 líneas por ítem):
+
+1. **V dominante hoy y V dominante si 2× tráfico**  
+   _Respuesta: …_
+
+2. **Trade-off elegido (ej.: más compresión vs CPU)**  
+   - ¿Cuál fue la decisión?  
+   - ¿Por qué la elegiste?  
+   - ¿Cómo la medirás (métrica, experimento)?  
+   _Respuesta: …_
+
+3. **Por qué “inmutable + linaje” mejora veracidad y qué coste añade**  
+   _Respuesta: …_
+
+4. **KPI principal y SLA del dashboard**  
+   - ¿Qué KPI es el más relevante?  
+   - ¿Qué decisión de negocio habilita?  
+   - ¿Por qué definiste ese SLA/latencia?  
+   _Respuesta: …_
+
+5. **Riesgo principal del diseño y mitigación técnica concreta**  
+   _Respuesta: …_
