@@ -52,4 +52,50 @@ Ejemplos de correspondencia entre campos de distintos CSV y el esquema canónico
 | `valor`          | pagos.csv             | —                 | —                     | ✅                   |
 
 > 📌 **Nota**: los mapeos deben documentarse y actualizarse a medida que se incorporen nuevas fuentes.
+# 🛡️ Gobernanza de Datos
+
+Este documento define las políticas de gobernanza aplicadas en el laboratorio.
+
+---
+
+## Origen y Linaje
+- Todos los archivos fuente (CSVs) se almacenan en **`/data/raw`**.  
+- Cada dataset pasa por fases: **raw → bronze → silver → (gold opcional)**.  
+- Se documenta el linaje de cada campo en el diccionario de datos.  
+- La app Streamlit debe permitir rastrear un KPI hasta sus datos de origen.
+
+---
+
+## Validaciones Mínimas
+- Tipos de datos correctos (`date`, `string`, `float`).  
+- Fechas en formato **ISO 8601** (`YYYY-MM-DD`).  
+- Campos `amount` no nulos y con valores numéricos válidos.  
+- Eliminación de duplicados exactos.  
+- Reglas específicas según dataset documentadas en `docs/diccionario.md`.
+
+---
+
+## Política de Mínimos Privilegios
+- Los datasets en **raw** solo son accesibles por el rol **Data Engineer**.  
+- Las capas **bronze** y **silver** son accesibles para **Data Analyst**.  
+- La capa **gold** (KPIs) es accesible a **Business Users**.  
+- Cada usuario/rol tiene permisos únicamente sobre las carpetas y operaciones necesarias.  
+
+---
+
+## Trazabilidad
+- Cada dataset transformado debe incluir un **registro de origen** (archivo fuente, fecha de carga).  
+- Se generan **logs de validación y transformación** para auditar el proceso.  
+- Los KPIs en la app Streamlit deben indicar la última fecha de actualización.
+
+---
+
+## Roles
+| Rol            | Responsabilidades                                                       |
+|----------------|-------------------------------------------------------------------------|
+| Data Engineer  | Ingesta, validación, normalización, mantenimiento de pipelines.         |
+| Data Analyst   | Exploración de datos en bronze/silver, creación de consultas y métricas.|
+| Business User  | Consumo de KPIs y visualizaciones desde la app.                         |
+| Data Steward   | Garantizar calidad de datos, actualización del diccionario y gobernanza.|
+
 
