@@ -143,3 +143,47 @@ Responde brevemente a cada punto (3–5 líneas por ítem):
 
 5. **Riesgo principal del diseño y mitigación técnica concreta**  
    _Respuesta: …_
+## 🚀 Pega y corre
+
+Sigue estos pasos mínimos en orden para completar y entregar el laboratorio:
+
+1. **Crear repo con estructura**  
+   - Tiempo: ~15 min  
+   - Acción: en GitHub, crea `bigdata-storage-lab-<apellido>` con las carpetas/archivos de la estructura base (`src/`, `docs/`, `tests/`, `data/`).  
+   - Check: estructura visible en la raíz, `.gitkeep` en carpetas vacías.
+
+2. **Pegar archivos base**  
+   - Tiempo: ~30 min  
+   - Acción: copia el contenido de `requirements.txt`, `streamlit_app.py`, `src/*.py`, `docs/*.md`, `tests/checklist.md`.  
+   - Check: no hay errores de sintaxis al abrir cada archivo; dependencias correctas en `requirements.txt`.
+
+3. **Subir CSV de prueba**  
+   - Tiempo: ~15 min  
+   - Acción: carga `ventas_mes.csv`, `sales_may.csv`, `partners_jun.csv` en la app.  
+   - Check: se genera **bronze** unificado y **silver** si las validaciones pasan.
+
+4. **Desplegar en Streamlit Community Cloud**  
+   - Tiempo: ~20 min  
+   - Acción: conecta el repo, selecciona `streamlit_app.py` como main file, despliega.  
+   - Check: URL pública funciona, se pueden subir CSV y descargar bronze/silver.
+
+5. **Completar README con reflexiones**  
+   - Tiempo: ~20 min  
+   - Acción: responde a los **Prompts de reflexión** (5 preguntas), añade decisiones justificadas (5V) y capturas en `docs/`.  
+   - Check: README tiene secciones completas y autoexplicativas.
+
+6. **Entregar URLs**  
+   - Tiempo: ~5 min  
+   - Acción: comparte:  
+     - URL del repo GitHub (público)  
+     - URL de la app en Streamlit  
+   - Check: ambos enlaces funcionan y permiten reproducir el trabajo.
+
+---
+
+### ✅ Antes de entregar, comprueba:
+- [ ] **URL de Streamlit** accesible y funcional.  
+- [ ] **bronze.csv** y **silver.csv** descargables y con esquema correcto (`date, partner, amount`).  
+- [ ] **README.md** incluye decisiones (5V), reflexiones respondidas y capturas.  
+- [ ] **docs/** contiene `diccionario.md`, `gobernanza.md`, capturas y tablas de estrategia.  
+- [ ] **tests/checklist.md** marcado según cumplimiento.  
