@@ -1,0 +1,14 @@
+# src/transform.py
+"""
+Módulo de normalización y transformación.
+Responsable de estandarizar nombres de columnas, tipos y preparar tablas bronze/silver.
+"""
+
+import pandas as pd
+
+def normalize_columns(df: pd.DataFrame) -> pd.DataFrame:
+    """Convierte nombres de columnas a snake_case y minúsculas."""
+    df.columns = [col.strip().lower().replace(" ", "_") for col in df.columns]
+    return df
+
+# TODO: aplicar casting de tipos, limpieza de outliers, exportar a /data/bronze y /data/silver
