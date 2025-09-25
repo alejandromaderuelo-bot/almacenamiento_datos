@@ -1,0 +1,18 @@
+| ID | Nombre   | Edad | Ciudad      |
+|----|----------|------|-------------|
+| 1  | Ana      | 23   | Madrid      |
+| 2  | Luis     | 31   | Barcelona   |
+| 3  | Sofía    | 27   | Valencia    |
+
+  {"id": 1, "nombre": "Ana", "edad": 23, "ciudad": "Madrid"}
+{"id": 2, "nombre": "Luis", "edad": 31, "ciudad": "Barcelona"}
+{"id": 3, "nombre": "Sofía", "edad": 27, "ciudad": "Valencia"}
+1. Ana, 23 años, vive en Madrid.
+2. Luis, 31 años, vive en Barcelona.
+3. Sofía, 27 años, vive en Valencia.
+
+Genera un dataset ESTRUCTURADO con 1000 filas; Seed=7
+columnas: fecha:date, cliente_id:int, producto:string, importe:float, metodo_pago:categorical
+columnas: ts:date, sensor_id:int, temp_c:float, humedad:float, estado:categorical
+columnas: user_id:int, nombre:string, pais:string, fecha_registro:date, plan:categorical
+
